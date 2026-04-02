@@ -142,7 +142,7 @@ export default function TransaccionesPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <div>
               <label className="block text-xs text-white/40 mb-1">Tipo</label>
-              <select value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value })} className="w-full">
+              <select value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value, category: "" })} className="w-full">
                 <option value="ingreso">Ingreso</option>
                 <option value="egreso">Egreso</option>
               </select>
@@ -161,7 +161,16 @@ export default function TransaccionesPage() {
             </div>
             <div>
               <label className="block text-xs text-white/40 mb-1">Categoría</label>
-              <input type="text" value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} placeholder="Ej: Servicios" className="w-full" />
+              {form.type === "ingreso" ? (
+                <select value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} className="w-full">
+                  <option value="">Seleccionar categoría</option>
+                  <option value="ventas_nuevas">Ventas Nuevas</option>
+                  <option value="cuotas">Cuotas</option>
+                  <option value="ventas_internas">Ventas Internas</option>
+                </select>
+              ) : (
+                <input type="text" value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} placeholder="Ej: Servicios" className="w-full" />
+              )}
             </div>
             <div>
               <label className="block text-xs text-white/40 mb-1">Descripción</label>
@@ -239,7 +248,9 @@ export default function TransaccionesPage() {
                       </div>
                     </td>
                     <td className="text-white/80 max-w-[200px] truncate">{tx.description}</td>
-                    <td className="hidden sm:table-cell text-white/40 text-xs">{tx.category || "-"}</td>
+                    <td className="hidden sm:table-cell text-white/40 text-xs">
+                      {{ ventas_nuevas: "Ventas Nuevas", cuotas: "Cuotas", ventas_internas: "Ventas Internas" }[tx.category ?? ""] || tx.category || "-"}
+                    </td>
                     <td className="text-white/50 text-sm">{formatDate(tx.date)}</td>
                     <td className="hidden sm:table-cell">
                       <span className="text-xs px-2 py-0.5 rounded-full bg-white/5 text-white/40">

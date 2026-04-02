@@ -74,7 +74,11 @@ export default function Dashboard() {
     return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
   });
 
-  const ingresos = thisMonth.filter((t) => t.type === "ingreso").reduce((s, t) => s + t.amount, 0);
+  const ingresosAll = thisMonth.filter((t) => t.type === "ingreso");
+  const ingresos = ingresosAll.reduce((s, t) => s + t.amount, 0);
+  const ventasNuevas = ingresosAll.filter((t) => t.category === "ventas_nuevas").reduce((s, t) => s + t.amount, 0);
+  const cuotas = ingresosAll.filter((t) => t.category === "cuotas").reduce((s, t) => s + t.amount, 0);
+  const ventasInternas = ingresosAll.filter((t) => t.category === "ventas_internas").reduce((s, t) => s + t.amount, 0);
   const egresos = thisMonth.filter((t) => t.type === "egreso").reduce((s, t) => s + t.amount, 0);
   const balance = ingresos - egresos;
 
@@ -139,6 +143,34 @@ export default function Dashboard() {
           icon={Users}
           color="cyan"
         />
+      </div>
+
+      {/* Income Breakdown */}
+      <div className="glass-card p-5">
+        <h2 className="text-sm font-semibold text-white/60 uppercase tracking-wider mb-4">Desglose de Ingresos</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="flex items-center justify-between p-3 rounded-lg bg-emerald-500/5 border border-emerald-500/10">
+            <div>
+              <p className="text-xs text-white/40">Ventas Nuevas</p>
+              <p className="text-lg font-bold text-emerald-400">{formatCurrency(ventasNuevas)}</p>
+            </div>
+            <ArrowUpRight size={20} className="text-emerald-400/40" />
+          </div>
+          <div className="flex items-center justify-between p-3 rounded-lg bg-blue-500/5 border border-blue-500/10">
+            <div>
+              <p className="text-xs text-white/40">Cuotas</p>
+              <p className="text-lg font-bold text-blue-400">{formatCurrency(cuotas)}</p>
+            </div>
+            <DollarSign size={20} className="text-blue-400/40" />
+          </div>
+          <div className="flex items-center justify-between p-3 rounded-lg bg-purple-500/5 border border-purple-500/10">
+            <div>
+              <p className="text-xs text-white/40">Ventas Internas</p>
+              <p className="text-lg font-bold text-purple-400">{formatCurrency(ventasInternas)}</p>
+            </div>
+            <ArrowUpRight size={20} className="text-purple-400/40" />
+          </div>
+        </div>
       </div>
 
       {/* Chart + Upcoming payments */}
