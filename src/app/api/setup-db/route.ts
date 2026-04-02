@@ -33,6 +33,7 @@ export async function GET() {
         "amount" REAL NOT NULL,
         "currency" TEXT NOT NULL DEFAULT 'USD',
         "status" TEXT NOT NULL DEFAULT 'pendiente',
+        "category" TEXT NOT NULL DEFAULT 'ventas_nuevas',
         "paidAt" DATETIME,
         "dueDate" DATETIME NOT NULL,
         "description" TEXT,
@@ -75,6 +76,13 @@ export async function GET() {
         "metadata" TEXT
       );
     `);
+
+    // Add category column to Payment if it doesn't exist
+    try {
+      await client.execute(`ALTER TABLE "Payment" ADD COLUMN "category" TEXT NOT NULL DEFAULT 'ventas_nuevas'`);
+    } catch {
+      // Column already exists
+    }
 
     const tables = await client.execute(
       `SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' AND name NOT LIKE '_litestream_%'`

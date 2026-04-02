@@ -9,6 +9,7 @@ interface PaymentData {
   amount: string;
   currency: string;
   status: string;
+  category: string;
   dueDate: string;
   description: string;
 }
@@ -27,6 +28,7 @@ export default function PaymentModal({ open, onClose, onSave, payment, clientId 
     amount: "",
     currency: "USD",
     status: "pendiente",
+    category: "ventas_nuevas",
     dueDate: new Date().toISOString().split("T")[0],
     description: "",
   });
@@ -40,6 +42,7 @@ export default function PaymentModal({ open, onClose, onSave, payment, clientId 
         amount: "",
         currency: "USD",
         status: "pendiente",
+        category: "ventas_nuevas",
         dueDate: new Date().toISOString().split("T")[0],
         description: "",
       });
@@ -66,6 +69,18 @@ export default function PaymentModal({ open, onClose, onSave, payment, clientId 
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-xs font-medium text-white/40 mb-1.5">Tipo de Pago *</label>
+            <select
+              value={form.category}
+              onChange={(e) => setForm({ ...form, category: e.target.value })}
+              className="w-full"
+            >
+              <option value="ventas_nuevas">Ventas Nuevas</option>
+              <option value="cuotas">Cuotas</option>
+              <option value="ventas_internas">Ventas Internas</option>
+            </select>
+          </div>
           <div>
             <label className="block text-xs font-medium text-white/40 mb-1.5">Monto *</label>
             <input

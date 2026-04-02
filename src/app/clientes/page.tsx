@@ -78,7 +78,7 @@ export default function ClientesPage() {
     fetchClients();
   };
 
-  const handleSavePayment = async (data: { id?: string; clientId: string; amount: string; currency: string; status: string; dueDate: string; description: string }) => {
+  const handleSavePayment = async (data: { id?: string; clientId: string; amount: string; currency: string; status: string; category: string; dueDate: string; description: string }) => {
     const method = data.id ? "PUT" : "POST";
     await fetch("/api/pagos", {
       method,

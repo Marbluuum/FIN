@@ -26,6 +26,7 @@ model Payment {
   amount      Float
   currency    String    @default("USD")
   status      String    @default("pendiente")
+  category    String    @default("ventas_nuevas")
   paidAt      DateTime?
   dueDate     DateTime
   description String?
