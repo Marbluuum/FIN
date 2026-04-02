@@ -39,6 +39,7 @@ export default function TransaccionesPage() {
     category: "",
     description: "",
     date: new Date().toISOString().split("T")[0],
+    source: "manual",
   });
 
   const fetchTransactions = useCallback(async () => {
@@ -88,6 +89,7 @@ export default function TransaccionesPage() {
       category: "",
       description: "",
       date: new Date().toISOString().split("T")[0],
+      source: "manual",
     });
     fetchTransactions();
   };
@@ -171,6 +173,15 @@ export default function TransaccionesPage() {
               ) : (
                 <input type="text" value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} placeholder="Ej: Servicios" className="w-full" />
               )}
+            </div>
+            <div>
+              <label className="block text-xs text-white/40 mb-1">Plataforma</label>
+              <select value={form.source} onChange={(e) => setForm({ ...form, source: e.target.value })} className="w-full">
+                <option value="manual">Manual</option>
+                <option value="mercury">Mercury</option>
+                <option value="stripe">Stripe</option>
+                <option value="binance">Binance</option>
+              </select>
             </div>
             <div>
               <label className="block text-xs text-white/40 mb-1">Descripción</label>
